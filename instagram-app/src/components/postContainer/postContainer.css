@@ -1,51 +1,33 @@
-.post {
-    width: 70%;
-    display: block;
-    margin: 4% auto;
-}
-
-.post__individual {
-     margin-top: 7%;
-     border: .5px solid gray;
-}
-.post__individual:first-of-type {
-    margin-top: 0;
-}
-.post__head {
-    display: flex;
-    margin-bottom: 2%;
-}
-
-.post__thumbnail {
-    width: 2.5rem;
+.search {
+    height: 500px;
+    width: 50%;
+    margin: 5px auto;
+  }
+  .post-border {
+    border: 1px solid #d3d3d3;
+    margin: 0 auto;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  }
+  .post-image-wrapper {
     height: 100%;
-    border-radius: 1.5rem;
-    margin: 1% 2% 0% 1%;
-}
-
-.post__username {
-    align-self: center;
-    margin-left: 1%;
-    font-weight: 700;
-    font-size: 1.5rem;
-}
-
-.post__image {
-    max-width: 100%;
-}
-
-.post__icon{
-    width: 4vw;
-    fill: currentColor;
-    margin: 1% 1% 0% 1%
-}
-
-.post__icon-heart {
-    width: 3vw;
-}
-
-.likes {
-    margin: 1% 0 0 1.5%;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
+    width: 100%;
+  }
+  
+  .post-image {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .post-header {
+    display: flex;
+  }
+  
+  .post-thumb-wrapper {
+    height: 50px;
+    width: 50px;
+  }
+  .post-thumb {
+    height: 100%;
+    border-radius: 50%;
+  }

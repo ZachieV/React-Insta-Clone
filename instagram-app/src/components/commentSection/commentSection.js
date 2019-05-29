@@ -1,60 +1,71 @@
-import React, { Component } from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Comment from './Comment';
+import CommentInput from './CommentInput';
 
-
-class CommentSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newComment: '',
-            comments: []
-          };
-    }
-
-    componentDidMount() {
-        this.setState({comments: this.props.comments });
-      }
-
-      handleAddComment = e => {
-        this.setState({ [e.target.name] : e.target.value });
-      }
-
-    /*  handleKeyPress = (e) => {
-        if(e.key == 'Enter'){
-            this.handleAddComment;
-        }
-      }
-       onKeyPress={this.handleKeyPress} <--goes in render input function
-     Tried to implement on keypress enter */
-
-      
-  handleSubmitComment = () => {
-    const { comments } = this.state;
-    comments.push({
-      username: "Cris_cookie_",
-      text: this.state.newComment
-    });
-    this.setState({ comments, newComment: '' });
+class CommentSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: props.comments,
+      comment: ""
+    };
   }
 
-    render() {
-        return(
-        <div>
-           {this.props.comments.map(comment => (
-               <div className = "comments">
-                   <div className="comments__User">{comment.username} <span className="comments__Text">{comment.text}</span></div>
-               </div>
-           ))}
+  addComments = () => {
+    localStorage.setItem(
+      this.props.postId,
+      JSON.stringify(this.state.comments)
+    );
+  };
 
-           <div className="comments__time">{this.props.time}</div>
-           <div className = "comment__border"></div>
-           <div className="comment__Input-container">
-           <input className="comment__Input" type="text" name="newComment" onChange={this.handleAddComment} value={this.state.newComment} placeholder="Add a comment...."/>
-           <button className="comment__button" onClick={this.handleSubmitComment}>Add</button>
-           {/* <img src={dots} className="comment__dots"/> */}
-           </div>
-        </div>
-        )
+  addNewComment = e => {
+    e.preventDefault();
+    const newComment={text: this.state.comment, username: "Anthony Greb"};
+    const comments=[...this.state.comments];
+    comments.push(newComment);
+    this.setState({ comments, comment: "" });
+  };
+
+  handleCommentInput = e => {
+    this.setState({ comment: e.target.value });
+  }
+
+  componentDidMount() {
+    const id = this.props.postId;
+    if (localStorage.getItem(id)) {
+      this.setState({
+        comments: JSON.parse(localStorage.getItem(this.props.postId)),
+      });
     }
+    else {
+      this.addComments();
+    }
+  }
+
+  componentWillUnmount() {
+    this.addComments();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.comments.map((comment, i) => <Comment key={i} comment={comment} />)}
+        <CommentInput 
+          comment={this.state.comment}
+          addNewComment={this.addNewComment}
+          handleCommentInput={this.handleCommentInput}
+          />
+      </div>
+    );
+  }
 }
 
-export default CommentSection
+CommentSection.propTypes = {
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({ text: PropTypes.string, username: PropTypes.string })
+  )
+};
+
+
+export default CommentSection;
